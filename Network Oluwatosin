@@ -1,0 +1,47 @@
+import socket
+
+# Create a socket object
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Get the local machine name and specify the port
+host = socket.gethostname()
+port = 12345
+
+# Bind the socket to the host and port
+server_socket.bind((host, port))
+
+# Listen for incoming connections
+server_socket.listen(5)
+
+print("Server is waiting for connections...")
+
+while True:
+    # Accept a new connection
+    client_socket, addr = server_socket.accept()
+    print(f"Connection established with {addr}")
+
+    # Send a message to the client
+    message = "Hello! You are connected to the server."
+    client_socket.send(message.encode())
+
+    # Close the client socket
+    client_socket.close()    
+
+import socket
+
+# Create a socket object
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Get the server hostname and port
+host = socket.gethostname()
+port = 12345
+
+# Connect to the server
+client_socket.connect((host, port))
+
+# Receive data from the server
+message = client_socket.recv(1024)
+print(message.decode())
+
+# Close the socket
+client_socket.close()
